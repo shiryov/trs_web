@@ -41,7 +41,7 @@ def send_message(from_,to,subject,text):
 #    msg['X-
 #    msg.set_charset('utf-8')
     s = smtplib.SMTP('10.146.21.1')
-    s.login('it@apmessv.amur.ru','Woo2ohtu')
+    s.login('it@apmessv.amur.ru','1111')
     s.sendmail('it@apmessv.amur.ru', to, msg.as_string())
     s.quit()
     
