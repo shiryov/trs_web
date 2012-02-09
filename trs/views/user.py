@@ -2,7 +2,7 @@ from django.forms.models import ModelForm
 from django.http import Http404
 from django.shortcuts import redirect, render_to_response
 from trs.models import User
-from trs.views.views import login_required, View
+from trs.views.views import login_required
 
 __author__ = 'boris'
 
@@ -10,10 +10,6 @@ class UserForm(ModelForm):
     class Meta:
         model = User
 
-
-class UserView(View):
-    model_class = User
-    form_class = UserForm
 
 @login_required
 def user(request, id=None):

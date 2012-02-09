@@ -9,7 +9,6 @@ import mail_fetcher
 from trs.views.helpers import session_user
 from trs.views.views import login_required
 
-from views import View
 from trs.models import Ticket, Message, User
 
 __author__ = 'boris'
@@ -19,54 +18,6 @@ class TicketForm(ModelForm):
         model = Ticket
         exclude = ( 'user', 'admin', 'device', 'ctime', 'closing_time')
 
-
-class TicketView(View):
-    model_class = Ticket
-    form_class = TicketForm
-
-    def fill_initial_instance(self):
-
-        self.instance.user = User.objects.get(id=int(self.request_params['user_id']))
-        if self.request_params.get('status', '') == 'new':
-            self.instance.status = '00'
-        if self.request_params.get('status', '') == 'accepted':
-            self.instance.status = '10'
-            self.instance.accept_by(self.session_user)
-        if self.request_params.get('status', '') == 'closed':
-            self.instance.status = '30'
-            self.instance.accept_by(self.session_user)
-            self.instance.closing_time = datetime.now()
-        self.instance.priority = '20'
-
-
-    def get_templvars_onsave(self):
-        ticket_user = self.instance.user
-
-        tickets = Ticket.objects.filter(user=ticket_user).order_by('-id')
-        return {'foruser': ticket_user, 'mode': self.request_params['status'],
-                'tickets': tickets}
-
-    def get_templvars_onupdate(self):
-        ticket_user = self.instance.user
-
-        tickets = Ticket.objects.filter(user=ticket_user).order_by('-id')
-        return {'foruser': ticket_user, 'mode': self.instance.status,
-                'tickets': tickets}
-
-    def update_valid(self):
-        old_status = self.instance.status
-        new_status = self.form.data['status']
-        mail_error = None
-        t = self.form.save(commit=False)
-        if t.is_new(old_status) and not t.is_new(new_status):
-            if self.session_user:
-                t.accept_by(self.session_user)
-        if not t.is_new(old_status) and t.is_new(new_status) and t.admin:
-            t.admin = None
-            t.closing_time = None
-        if not t.is_closed(old_status) and t.is_closed(new_status):
-            t.closing_time = datetime.now()
-        return View.update_valid(self)
 
 
 #
