@@ -1,0 +1,227 @@
+table {background:#b9cc81; border-collapse:separate ; border-spacing: 1px }
+
+td {border:0px;padding:5px; background:#fff; color:black; font-size:11pt; font-family:helvetica; text-align:center }
+td.form {border:0px;padding:5px; background:#fff; font-size:11pt; font-family:helvetica; text-align:left }
+th {border:0px;padding:10px; background:#ffffff; color:black; font-size:11pt; font-family:helvetica; text-align:center }
+td.ticket_text {padding-top:1px;padding-bottom:1px;max-width:30%; font-size:11pt;}
+td.time {font-size:9pt;}
+
+table.form {background:#fff}
+
+span.hours{
+    color: #999;
+    font-size:8pt;
+}
+span.priority{
+    color: #999;
+    font-size:8pt;
+}
+
+span.user {font-size:11pt;}
+
+body{
+margin:0px
+}
+
+#wrap{
+position:absolute;
+top:90px;
+width:100%;
+}
+
+#main {
+position:relative;
+padding-bottom: 30px;/* ������ ������ ���� ����� ������ ������ */
+margin-left:15px;
+margin-right:15px}
+
+
+div.head {
+/*min-width: 700px;*/
+position:absolute;
+width: 100%;
+margin-left: 0px;
+margin-top: 0px;
+margin-right: 0px;
+padding-left: 0px;
+background-image: url('/media/title_bg.png');
+font-family: helvetica;
+font-size: 20px;
+color: #4b3900;
+height: 60px;
+top: 0px;
+bottom: 0px;
+margin-bottom: 0px;
+}
+
+div.logout{
+position:absolute;
+font-size:13px;
+right:0px;
+}
+
+div.menu {
+position:absolute;
+top:35px;
+padding: 1px;
+left: 10px;
+}
+
+.title{
+position:absolute;
+font-family: "Trebuchet MS";
+font-size:30px;
+left: 10px;
+top: 6px;
+}
+
+#answer{
+	width: 600px;
+	height: 120px;
+	border: 3px solid #a3b375;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	font-size: 30px;	
+/*	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat; */
+}
+
+.ticket_form{
+    text-align: left;
+}
+
+td{
+    text-align: left;
+}
+
+div#ticket_form{
+    position:absolute;
+    width:49%;
+    text-align: left;
+    left:0;
+    top:0;
+}
+
+label{
+	font-family: Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: 13px;
+}
+
+div.field_wrapper{
+    padding:1px;
+    font-family: Tahoma, sans-serif;    
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+div#ticket_messages{
+    position:absolute;
+    width:50%;
+    text-align: left;
+    right:0;
+    top:0;
+}
+
+textarea{
+	/*border: 1px solid #a3b375;*/
+	font-family: Tahoma, sans-serif;
+    font-size: 14px;
+	padding: 2px;
+}
+
+textarea#id_reply {
+	width: 100%;
+	height: 180px;
+
+}
+
+
+textarea#id_description {
+	width: 100%;
+	height: 90px;
+	
+}
+
+textarea#id_resume {
+	width: 100%;
+	height: 90px;
+	
+}
+/* Places */
+div.place_card {
+	margin-left: 1%;
+	padding: 0px;	
+/*	border: 1px solid #b9cc81;*/	
+	float:left;
+/*	min-width:60% */
+	
+}
+
+div.place_child {
+	margin: 1%;
+	padding: 1em;	
+	float: left;
+	border: 1px solid #b9cc81;
+}
+
+div.add_doc{
+	width:400px;
+	background-color: #eeeeee;
+	}
+	
+div.place_child_container{	
+	overflow:hidden;
+	width: auto;
+	left:0px;	
+	}
+	
+div.place_tree{
+	float: left;
+	overflow:auto;
+	width:20em;
+}
+a.path{
+    color: #999;
+    font-size:9pt;
+    
+}
+a.add_ver{
+    color: #999;
+    font-size:9pt;
+    
+}
+
+a.delete_device{
+    color: #999;
+    font-size:9pt;
+    
+}
+
+span.doc_details{
+	color: #999;
+    font-size:9pt;
+}
+
+div.path{
+	margin-bottom: 5%;	
+}
+/* end Places */
+
+
+
+h3{
+margin:0px;
+font-family: "Trebuchet MS";
+font-weight: normal;
+font-size: 18px;
+}
+
+h5{
+margin:0px;
+font-family: "Trebuchet MS";
+font-weight: normal;
+font-size: 16px;
+}
+

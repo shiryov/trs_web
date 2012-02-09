@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}- Просмотр заявок{% endblock %}
+{% block content %}
+
+<h3>Фильтр обращений</h3>
+
+<form action="/options/" method="post">
+
+{% for field in filter_form.visible_fields %}		
+<div class="field_wrapper">	
+		{{field.label_tag}}
+		{{field}}
+</div>    				  		
+	{% endfor %}
+<input type="submit" value="Применить"/>
+
+</form>
+
+{% endblock %}

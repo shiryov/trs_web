@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}- Новое обращение{% endblock %}
+{% block content %}
+<div style="position:relative">
+<div id="ticket_form">
+<h3>Новое обращение пользователя {{foruser.name}}</h3>
+{% if mail_error %}
+<div class="mail_error">Отправка email не удалась</br>Ошибка: {{mail_error}}</div>
+{% endif %}
+<form method="post" action="/new_ticket/">    
+    {{form.errors}}
+	{% for field in form.visible_fields %}				
+		<div class="field_wrapper">
+		{{field.label_tag}}
+		{{field}}
+		</div>
+	{% endfor %}
+    <input type="hidden" name="user_id" value="{{foruser.id}}"/>
+    <input type="submit" value="Создать"/>
+</form>
+</div>
+<div id="ticket_messages">
+<h4>История обращений</h4>
+{% for t in tickets %}
+<ul>
+<li>{{t.description}} <i>({{t.ctime|date:"d.m.Y"}} #{{t.id}})</i></li>
+
+{% if t.admin %}
+<ul><li>{{t.admin.login}}:
+	{% if t.resume %}	
+	<b>{{t.resume}}</b>
+	{% endif %}
+	</li>
+</ul>
+{% endif %}
+</ul>
+{% endfor %}
+</div>
+</div>
+{% endblock %}

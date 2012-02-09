@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}- Обращение №{{ticket.id}} {% endblock %}
+{% block content %}
+<div style="position:relative">
+<div id="ticket_messages">
+    <label>Ответить по email:</label>
+    <form method="post" action="/ticket_reply/">
+    <textarea name="msg_txt" id="id_reply"></textarea>
+    <input type="submit" value="Отправить"></input>
+    <input type="hidden" value="{{ticket.id}}" name="ticket_id" ></input>
+    </form>
+    <table style="border-color:black">
+    {% for m in msgs %}
+    
+    <tr>
+      <td>{% if m.reply %}&lt;&lt;out{% else %}&gt;&gt;in{% endif %}</td>
+      <td>{{m.time|date:"d.m.Y H:i"}}</td>	  
+      <td>{{m.text}}</td>	  
+    </tr>
+
+    {% endfor %}
+    </table>
+    
+</div>
+<div id="ticket_form">
+	{% if mail_error %}
+	<div class="mail_error">Отправка email не удалась</br>Ошибка: {{mail_error}}</div>
+	{% endif %}	
+    <form method="post" action="/edit_ticket/">
+    
+    <input type="hidden" name="ticket_id" value="{{ticket.id}}"/>
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+	{{form.errors}}
+    <div class="field_wrapper">
+    <label>Обращение #</label>
+    {{ticket.id}} от <a href="/user/{{ticket.user.id}}">{{ticket.user.name}}</a> ( {{ticket.user.phone}} , {{ticket.user.mobile}} ) {{ticket.ctime|date:"d.M H:i"}}
+    </div>
+    <div class="field_wrapper">
+
+
+    </div>
+        {% if form.instance.is_new %}
+    <!--<input type="checkbox" name="accept" value="accept"/><label>Беру на выполнение</label>-->
+    {% else %}
+            <label>Взял на выполнение: </label> {{form.instance.admin.name}}
+            {% if form.instance.is_closed %}
+            <label>Закрыто: </label> {{form.instance.closing_time|date:"d.m.Y H:i"}}
+            {% endif %}
+    {% endif %}
+
+	{% for field in form.visible_fields %}		
+		<div class="field_wrapper">	
+		{{field.label_tag}}
+		{{field}}
+		</div>    		
+	{% endfor %}
+  
+    <input type="submit" value="Применить"/>
+    </form>
+</div>
+</div>
+{% endblock %}

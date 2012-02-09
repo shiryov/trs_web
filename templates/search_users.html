@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}- Новое обращение{% endblock %}
+{% block content %}
+<h3>Поиск пользователей</h3>
+<!--div style="position:relative">-->
+<form method="post" action="/search_users/">    
+		<div class="field_wrapper">	
+        <label>Фамилия:</label>
+		<input type="text" name="srch_lastname"/>
+        <label>Email:</label>
+		<input type="text" name="srch_email"/>
+		<input type="submit" value="Найти"/>
+		</div>    		
+  
+    
+</form>
+<a href="{% url user_new %}">Добавить пользователя</a>
+{% if users %}
+<table>
+{% for u in users %}
+<tr>
+<td><a href="/user/{{u.id}}">{{ u.name }}</a>
+<td>{{ u.phone }}
+<td>{{ u.email }}
+<td><a href="{% url add_ticket user_id=u.id status="new" %}">[Новое]</a>
+<td><a href="/add_ticket/user/{{u.id}}/accepted/">[Принятое]</a>
+<td><a href="/add_ticket/user/{{u.id}}/closed/">[Постфактум]</a>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+<form method="post" action="/add_user/">
+
+</form>
+
+<!--</div>-->
+{% endblock %}

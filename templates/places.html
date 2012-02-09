@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% block title %}- Структура{% endblock %}
+{% block head%}
+
+<script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/media/js/jquery-ui-1.8rc3.custom.min.js"></script>
+<script type="text/javascript" src="/media/js/jstree/lib/jquery.cookie.js"></script>
+<script type="text/javascript" src="/media/js/jstree/jquery.jstree.js"></script>
+<script type="text/javascript" src="/media/js/my_forms.js"></script>
+{# load jquery_validation #}
+{# include_validation #}
+<link type="text/css" href="/media/smoothness/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="/media/js/jstree/themes/classic/style.css" />
+
+<script type="text/javascript" >
+
+ 
+
+ $(document).ready(function(){
+	//--------------------------Скрываем формы-------------------------------------
+   //$("td.doc_title").children().hide();
+
+   $("#place_form").hide();   
+   $("#device_form").hide();
+   $("#document_form").hide();
+   $("#select_user").hide();
+   
+	//Place
+   $("a.add_place").click(function(event){
+   	show_form__(event,"place","место","add",400,function(form_id){
+   		$("#id_parent").val("{{root.id}}");
+   	});
+   });
+   $("a.edit_place").click(function(event){
+   	show_form_(event,"place","место","edit",400)
+   });
+   
+   //--------------------------Устройство-------------------------------------
+   $("a.add_device").click(function(event){
+   	show_form__(event,"device","устройство","add",500,function(form_id){
+   		$("#id_place").val("{{root.id}}");
+   	});
+   });   	
+   $("a.edit_device").click(function(event){
+   	show_form_(event,"device","устройство","edit",500)   	
+   });
+
+	//--------------------------Документ-------------------------------------  
+   //$("a.add_doc").click(expand_form_);
+   $("a.add_doc").click(function(event){
+   		$('#document_form input[name=name]').val('');
+   		$('#document_form input[name=comment]').val('');
+	  	$('#document_form').dialog({modal: true, width: 400, 
+   		resizable: false,title: "Добавить документ"});
+   		event.preventDefault();  	
+	});
+	
+   $("a.add_ver").click(function(event){
+   		
+   		id=event.target.id.split('_')[1];
+   		$.getJSON('/ajax/document/'+id, function(data) {
+	   		for (field in data[0].fields){
+	  			$('#document_form input[name='+field+']').val(data[0].fields[field]);	  
+		  	}
+	  		$('#document_form input[name=doc_id]').val(id);
+
+		  	$('#document_form').dialog({modal: true, width: 400,	  	 
+   			resizable: false,title: "Обновить документ"});
+   		});
+   		event.preventDefault();
+   		  	
+	});
+	//--------------------------Пользователь-------------------------------------
+	$("a.add_user").click(function(event){
+		$('#select_user').dialog({modal: true, width: 400, 
+   		resizable: false,title: "Выбрать пользователя"});
+   		event.preventDefault();
+	});
+
+
+	$("#search_user").click(function(event){
+		$("a.user").remove();
+		var srch_name=$('#user_srch_string').val();
+		$.getJSON('/ajax/users',{ name: srch_name }, function(data) {
+			for (i in data){
+				block='<a href="/user_to_place/'+data[i].id+'/{{root.id}}" class="user" id=\"user_'+data[i].id+'\">'+data[i].name+'</a><br/>';
+				$(block).prependTo("#searched_users");
+	   		}
+	   	});
+		event.preventDefault();
+	});
+	  
+   //--------------------------Дерево-------------------------------------
+   $("#place_tree").jstree({ core: { initially_open : ["place_0"],animation : 10},themes:{theme: "classic"},
+   							"plugins"  : [ "themes", "html_data", "cookies" ] 
+   							});   
+
+   var arr=$("#place_tree").jstree("get_path","#place_{{root.id}}",true);
+   for (i in arr){   	
+	   	$("#place_tree").jstree("open_node","#"+arr[i],false,true);
+   }
+   
+ });
+
+//    $(function()    {        
+//        $('#device_form').validate('{% url device_form_validate %}', {type: 'table'});
+//    });
+
+
+</script>
+{% endblock %}
+{% block content %}
+
+<div id="place_tree" class="place_tree" >
+<ul>
+{{tree|safe}}
+</ul>
+</div>
+
+<div class="place_card">
+	<h3>
+	{% ifnotequal root.level 0 %}
+	{{root.level_display}} - 
+	{% endifnotequal %}
+	{{root.name}}</h3>
+
+	<div class="path">
+{% for place in root.path %}
+	: <a class="path" href="{{place.get_absolute_url}}">{{place.name}}</a>
+{% endfor %}
+	</div>
+
+
+	<a href="" class="add_place">[добавить место]</a>
+	<a href="" class="edit_place" id="place_{{root.id}}">[править место]</a>
+	<a href="/del_place/{{root.id}}">[удалить место]</a><br/>
+
+<ul>
+{% for usr in root.users %}
+	<li>{{usr.name}}</li>
+{% endfor %}
+</ul>
+<a href="" class="add_user">[связать с пользователем]</a>
+<ul>
+{% for dev in devices %}
+<li><a href="" class="edit_device" id="dev_{{dev.id}}">{{dev.type_display}} - {{dev.inv_no}}</a>&nbsp;<a class="delete_device" href="/delete_device/{{dev.id}}">[удалить]</a></li>
+{% endfor %}
+</ul>
+	<a href="" class="add_device">[добавить устройство]</a>
+	
+{% if docs %}	
+<ul>	
+{% for doc in docs %}
+		<li><a href="down">{{doc.name}}</a>	
+		<span class="doc_details">
+		{{doc.latest_file.ctime|date:"d.m.Y H:i"}} - {{doc.latest_file.user.login}}
+		</span>
+		<a class="add_ver" href="" id="doc_{{doc.id}}">[правка]</a>		
+		</li>
+		
+{% endfor %}
+	</ul>	
+{% endif %}
+	<br/>
+	<a href="" class="add_doc">[добавить файл]</a>
+	<br/>	
+{% comment %}
+	<div class="place_child_container">
+{% for town in root.childs %}
+		<div class="place_child"><a href="/places/{{town.id}}">{{ town.name }}</a></div>
+{% endfor %}
+<br clear="all" />	
+	</div>
+	{% endcomment %}
+</div>
+
+			
+			<form method="post" id="place_form">			
+			<input type="hidden" id="place_id" name="id" value="" />
+			<input type="hidden" id="id_parent" name="parent" value="" />
+			<table class="form">    
+			    {{place_form.errors}}
+				{% for field in place_form.visible_fields %}				
+					<tr>
+					<td>{{field.label_tag}}</td>
+					<td>{{field}}</td>
+					</tr>
+				{% endfor %}
+			    
+			    <tr>
+			    <td colspan="2"><input type="submit" value="Сохранить"/></td>
+			    </tr>
+			 </table>
+			</form>
+
+			<form method="post" id="device_form">
+			<table class="form">			    
+				{% for field in device_form.visible_fields %}				
+					<tr>
+					<td>{{field.label_tag}}</td>
+					
+					<td>{{field}}</td>
+					</tr>
+				{% endfor %}
+				{% for field in device_form.hidden_fields %}
+					{{field}}
+				{% endfor %}
+				
+				<input type="hidden" id="device_id" name="id" value="" />							    
+			    <tr>
+			    <td colspan="2"><input type="submit" value="Сохранить"/></td>
+			    </tr>
+		    </table>
+			</form>
+			
+			<form method="post" action="/doc_upload/" enctype="multipart/form-data" id="document_form">
+				<table class="form">			    
+				{% for field in form.visible_fields %}				
+					<tr>
+					<td>{{field.label_tag}}</td>
+					<td>{{field}}</td>
+					</tr>
+				{% endfor %}
+				
+				<input type="hidden" name="place_id" value="{{root.id}}" />
+				<input type="hidden" name="doc_id" value=""/>
+			    <tr>
+			    <td colspan="2"><input type="submit" value="Сохранить"/></td>
+			    </tr>
+			   	</table>
+			</form>
+			
+			<div id="select_user">
+			<form>
+			<input type="text" id="user_srch_string"/>
+			<input type="submit" value="Поиск" id="search_user"/>
+			</form>
+				<div id="searched_users">
+				</div>			
+			</div>
+
+{% endblock %}

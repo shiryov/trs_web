@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}- Пользователь{% endblock %}
+{% block content %}
+<a href="javascript:history.back()">&lt;&lt;Назад</a>
+<h3>{{user.name}}</h3>
+
+<div style="position:relative">
+<div id="ticket_form">
+
+<form method="post" action="{{ form_action }}">
+    {{form.errors}}
+	{% for field in form.visible_fields %}				
+		<div class="field_wrapper">
+		{{field.label_tag}}
+		{{field}}
+		</div>
+	{% endfor %}
+	{% if user.id %}
+    <input type="hidden" name="user_id" value="{{user.id}}"/>
+    {% endif %}
+    <input type="submit" value="Сохранить"/>
+</form>
+</div>
+</div>
+{% endblock %}

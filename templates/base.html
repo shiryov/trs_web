@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type"  content="text/html;charset=utf-8" >  
+  <title>IT Workspace {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/media/style.css" type="text/css">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+    <div class="head">
+            <div class="title">IT Workspace</div> 
+            <div class="logout"><a href="/logout/">[logout]</a></div>
+    </div>
+    <div class="menu">
+            <a href="/">[Обращения]</a>
+            <a href="/search_users/">[Пользователи]</a>
+            <a href="/options/">[Настройки]</a>
+           <!-- <a href="/places/">[Места]</a> -->
+    </div>
+<div id="wrap">
+    <div id="main">
+        {% block content %}{% endblock %}
+    </div>
+    </div>
+    <div id="footer">
+    (c) ОСП ПО ЦВР МЭС Востока - Амурский участок ИТС
+    </div>
+</body>
+</html>
+

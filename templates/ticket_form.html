@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}- Новое обращение{% endblock %}
+{% block content %}
+<div style="position:relative">
+<div id="ticket_form">
+<div class="field_wrapper">Обращение пользователя: <b>{{form.instance.user.name}}</b><br/>
+ {{form.instance.user.phone}} , {{form.instance.user.mobile}}  {{form.instance.ctime|date:"d.M H:i"}}<br/>
+        {% if form.instance.is_new %}
+    <!--<input type="checkbox" name="accept" value="accept"/><label>Беру на выполнение</label>-->
+    {% else %}
+            <label>Взял на выполнение: </label> {{form.instance.admin.name}}
+            {% if form.instance.is_closed %}
+            <br/><label>Закрыто: </label> {{form.instance.closing_time|date:"d.m.Y H:i"}}
+            {% endif %}
+    {% endif %}
+</div><br/>
+
+{% if mail_error %}
+<div class="mail_error">Отправка email не удалась<br/>Ошибка: {{mail_error}}</div>
+{% endif %}
+{{ counter }}
+<form method="post" action="{{ form_action }}">
+    {{form.errors}}
+	{% for field in form.visible_fields %}				
+		<div class="field_wrapper">
+		{{field.label_tag}}
+		{{field}}
+		</div>
+	{% endfor %}
+{% for field in form.hidden_fields %}
+
+		{{field}}
+
+	{% endfor %}
+
+    <input type="submit" value="Отправить"/>
+</form>
+</div>
+<div id="ticket_messages">
+<h4>История обращений</h4>
+{% for t in form.user_tickets %}
+<ul>
+<li>{{t.description}} <i>({{t.ctime|date:"d.m.Y"}} #{{t.id}})</i></li>
+
+{% if t.admin %}
+<ul><li>{{t.admin.login}}:
+	{% if t.resume %}	
+	<b>{{t.resume}}</b>
+	{% endif %}
+	</li>
+</ul>
+{% endif %}
+</ul>
+{% endfor %}
+</div>
+</div>
+{% endblock %}
