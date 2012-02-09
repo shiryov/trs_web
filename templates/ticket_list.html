@@ -34,7 +34,7 @@
 	  <td>{{t.id}}</td>
       <td><a href="{% url edit "ticket" t.id %}">{{t.get_status_display}}</a><br/><span class="priority">{{t.get_priority_display}}</span></td>
       <td class="time">{{t.ctime|date:"d.M H:i"}}<br/><span class="hours">{{t.hours_from_now}} ч. назад</span></td>
-      <td><span class="user"><a href="/user/{{t.user.id}}">{{t.user.name}}</a></span></td>
+      <td><span class="user"><a href="/edit_user/{{t.user.id}}">{{t.user.name}}</a></span></td>
 	  <td class="ticket_text">
 	  {{t.get_short_text}}
 	  <img src="/media/cat_{{t.category}}.png" title="{{t.get_category_display}}" align="right" style="padding-left:5px"/>

@@ -14,12 +14,12 @@
   
     
 </form>
-<a href="{% url user_new %}">Добавить пользователя</a>
+<a href="{% url create "user" %}">Добавить пользователя</a>
 {% if users %}
 <table>
 {% for u in users %}
 <tr>
-<td><a href="/user/{{u.id}}">{{ u.name }}</a>
+<td><a href="/edit_user/{{u.id}}">{{ u.name }}</a>
 <td>{{ u.phone }}
 <td>{{ u.email }}
 <td><a href="{% url add_ticket user_id=u.id status="new" %}">[Новое]</a>

@@ -50,4 +50,6 @@ class TicketForm(ModelForm):
         model = Ticket
         exclude = ( 'user', 'admin', 'device', 'ctime', 'closing_time')
 
-        
+class UserForm(ModelForm):
+    class Meta:
+        model = User

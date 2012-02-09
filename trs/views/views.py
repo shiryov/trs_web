@@ -228,10 +228,13 @@ def ticket_create(request,user_id,status):
     if status == 'closed':
         ticket.admin = admin
         ticket.status = '30'
-    return generic_create(request,"ticket",ticket,reverse ('create',args=["ticket",ticket.id,]))
+    return generic_create(request,"ticket",init_instance=ticket,redirect=reverse ('create',args=["ticket",ticket.id,]))
 
 
-def generic_create(request, model_name, init_instance,redirect):
+
+def generic_create(request, model_name, init_instance=None,redirect=None):
+    if init_instance is None:
+        init_instance=getattr(sys.modules['trs_web.trs.models'], model_name.capitalize())()
     if request.method == 'GET':
         form = getattr(sys.modules['trs_web.trs.views.forms'],
                    model_name.capitalize() + 'Form')(instance=init_instance)
@@ -241,44 +244,10 @@ def generic_create(request, model_name, init_instance,redirect):
         form = getattr(sys.modules['trs_web.trs.views.forms'],
                    model_name.capitalize() + 'Form')(request.POST,instance=init_instance)
         if form.is_valid():
-            form.save()
-            return redirect(redirect)
+            form.save(commit=True)
+            return redirect
         else:
             return "hello"
-
-
-#@security.check_generic("add")    
-def generic_add(request, model_name):
-#model = getattr(sys.modules['trs_web.trs.models'], model_name.capitalize())
-    form = getattr(sys.modules['trs_web.trs.views.forms'],
-                   model_name.capitalize() + 'Form')(request.POST)
-    if form.is_valid():
-        inst = form.save(commit=True)
-        return redirect(inst.get_absolute_url())
-    else:
-        return HttpResponse(form.errors)
-
-
-def create(request, form=None, model=None, redirect_url=None, before_save=None,
-           after_save=None):
-    model_name = model.__name__.lower
-    if request.method == 'POST':
-        if form.is_valid():
-            if before_save is not None: before_save(form=form, request=request)
-            inst = form.save(commit=True)
-            if after_save is not None: after_save(object=inst)
-            return redirect(
-                    redirect_url) if redirect_url is not None else redirect(
-                    inst.get_absolute_url)
-
-        else:
-            #return HttpResponse(form.errors)
-            return render_to_response("%s_form.html" % model_name,
-                                      {'form': form})
-    if request.method == "GET":
-        return HttpResponse("hello")
-
-    return HttpResponse("hello")
 
 
 def generic_jget(request, model_name, id):

@@ -20,16 +20,23 @@ patterns('',
          # (r'^trs_web/', include('trs_web.foo.urls')),
          (r'^$', views.ticket_list),
          url(r'^ticket/(\d{1,6})/$', ticket.message_list, name="ticket"),
+         (r'^edit_ticket/$', ticket.edit_ticket),
+         (r'^new_ticket/$', ticket.add_ticket),
+         #(r'^ticket/foruser/(\d{1,6})$', ticket.TicketView),
+         url(r'^add_ticket/user/(\d{1,6})/(\w+)/$', ticket.add_ticket, name="new_ticket"),
+         #url(r'^add_ticket/user/(?P<user_id>\d{1,6})/(?P<status>\w+)/$', ticket.TicketView.exec_save, name="new_ticket"),
+
+
          #url(r'^ticket/(?P<id>\d{1,6})/$', ticket.TicketView.exec_update, name="ticket"),
-         #url(r'^user/(\d{1,6})/$', views.user, name="user"),
+
          #url(r'^user/(?P<id>\d{1,6})/$', user.UserView.exec_update, name="user"),
-         #url(r'^user/$', user.UserView.exec_save, name="user_new"),
+         url(r'^create_(\w+)$', views.generic_create, name="create"),
          (r'^places/$', place.places),
          (r'^place/(\d{1,6})$', place.places),
          (r'^user_to_place/(\d{1,6})/(\d{1,6})$', views.user_to_place),
          #(r'^add_place/$', place.add_place),
-
-         url(r'^add_(?P<model_name>ticket)/user/(?P<user_id>\d{1,6})/(?P<status>\w+)/$', views.generic_create,name="add_ticket"),
+         
+         url(r'^add_ticket/user/(?P<user_id>\d{1,6})/(?P<status>\w+)/$', views.generic_create,name="add_ticket"),
 
          url(r'^edit_(\w+)/(\d{1,6})/$', views.generic_edit, name="edit"),
          (r'^delete_(\w+)/(\d{1,6})$', views.generic_delete),
@@ -42,11 +49,7 @@ patterns('',
           'device_form_validate'),
 
          (r'^del_place/(\d{1,6})$', place.del_place),
-         (r'^edit_ticket/$', ticket.edit_ticket),
-         (r'^new_ticket/$', ticket.add_ticket),
-         #(r'^ticket/foruser/(\d{1,6})$', ticket.TicketView),
-         url(r'^add_ticket/user/(\d{1,6})/(\w+)/$', ticket.add_ticket, name="new_ticket"),
-         #url(r'^add_ticket/user/(?P<user_id>\d{1,6})/(?P<status>\w+)/$', ticket.TicketView.exec_save, name="new_ticket"),
+
          (r'^doc_upload/$', place.doc_upload),
          (r'^search_users/$', views.search_users),
          (r'^ticket_reply/$', views.ticket_reply),
