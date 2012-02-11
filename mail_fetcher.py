@@ -106,7 +106,7 @@ def check_mailbox():
 
     M = poplib.POP3('10.146.21.1')
     M.user('it@apmessv.amur.ru')
-    M.pass_('Woo2ohtu')
+    M.pass_('1111')
 
     numMessages = len(M.list()[1])
 
