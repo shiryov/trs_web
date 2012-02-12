@@ -19,7 +19,7 @@
 <table>
 {% for u in users %}
 <tr>
-<td><a href="/edit_user/{{u.id}}">{{ u.name }}</a>
+<td><a href="{% url user_update pk=u.id %}">{{ u.name }}</a>
 <td>{{ u.phone }}
 <td>{{ u.email }}
 <td><a href="{% url add_ticket user_id=u.id status="new" %}">[Новое]</a>

@@ -30,6 +30,8 @@ patterns('',
          #url(r'^ticket/(?P<id>\d{1,6})/$', ticket.TicketView.exec_update, name="ticket"),
 
          #url(r'^user/(?P<id>\d{1,6})/$', user.UserView.exec_update, name="user"),
+         url(r'^create_user$', views.UserCreate.as_view(), name="user_create"),
+         url(r'^user/(?P<pk>\d+)/edit/$', views.UserUpdate.as_view(), name="user_update"),
          url(r'^create_(\w+)$', views.generic_create, name="create"),
          (r'^places/$', place.places),
          (r'^place/(\d{1,6})$', place.places),

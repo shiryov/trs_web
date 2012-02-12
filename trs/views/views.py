@@ -1,6 +1,9 @@
 # -*- coding: utf8 -*-
 import json
 from django.core.urlresolvers import reverse
+from django.views.generic.edit import CreateView
+from django.views.generic.edit import UpdateView
+
 
 from trs.models import *
 
@@ -27,6 +30,21 @@ def login_required(view):
             return view(*args, **kwargs)
 
     return tmp
+
+
+
+class UserCreate(CreateView):
+    form_class=UserForm
+    template_name='user_form.html'
+    success_url='/'
+
+class UserUpdate(UpdateView):
+    form_class=UserForm
+    template_name='user_form.html'
+    success_url='/'
+    model=User
+
+
 
 
 def ticket_filter(data, admin_id):
