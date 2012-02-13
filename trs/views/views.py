@@ -248,6 +248,30 @@ def ticket_create(request,user_id,status):
         ticket.status = '30'
     return generic_create(request,"ticket",init_instance=ticket,redirect=reverse ('create',args=["ticket",ticket.id,]))
 
+class TicketCreate(CreateView):
+    form_class=TicketForm
+    success_url="/"
+    template_name="ticket_form.html"
+
+    def form_valid(self,form):
+        admin = session_user(self.request)
+        ticket_user = User.objects.get(id=self.kwargs['user_id'])
+        ticket=form.save(commit=False)
+
+        ticket.user=ticket_user
+        if not ticket.status: ticket.status = 'none'
+        if ticket.status == 'new': ticket.status = '00'
+        if ticket.status == 'accepted':
+            ticket.admin = admin
+            ticket.status = '10'
+        if ticket.status == 'closed':
+            ticket.admin = admin
+            ticket.status = '30'
+        ticket.save()
+        return redirect(self.get_success_url())
+
+        
+
 
 
 def generic_create(request, model_name, init_instance=None,redirect=None):

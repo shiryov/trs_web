@@ -21,9 +21,9 @@ patterns('',
          (r'^$', views.ticket_list),
          url(r'^ticket/(\d{1,6})/$', ticket.message_list, name="ticket"),
          (r'^edit_ticket/$', ticket.edit_ticket),
-         (r'^new_ticket/$', ticket.add_ticket),
-         #(r'^ticket/foruser/(\d{1,6})$', ticket.TicketView),
-         url(r'^add_ticket/user/(\d{1,6})/(\w+)/$', ticket.add_ticket, name="new_ticket"),
+         #(r'^new_ticket/$', ticket.add_ticket),
+         url(r'^create_ticket/for-user/(?P<user_id>\d{1,6})$', views.TicketCreate.as_view()),
+         #url(r'^add_ticket/user/(\d{1,6})/(\w+)/$', ticket.add_ticket, name="new_ticket"),
          #url(r'^add_ticket/user/(?P<user_id>\d{1,6})/(?P<status>\w+)/$', ticket.TicketView.exec_save, name="new_ticket"),
 
 
