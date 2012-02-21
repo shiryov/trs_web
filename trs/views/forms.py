@@ -15,28 +15,28 @@ class TicketFilterForm(forms.Form):
     #  admins=User.objects.filter(admin=True)
     #  for a in admins:
     #     CHOICES.append((unicode(a.id),a.name))
-    
+
     new = forms.BooleanField(label='Новые', required=False)
     accepted = forms.ChoiceField(label='Принятые', choices=CHOICES, required=False)
     closed = forms.ChoiceField(label='Закрытые', choices=CHOICES, required=False)
-    deleted = forms.ChoiceField(label='Удалённые', choices=CHOICES, required=False)    
+    deleted = forms.ChoiceField(label='Удалённые', choices=CHOICES, required=False)
     wreport = forms.BooleanField(label='Только с отчётами', required=False)
 
 class PlaceDocumentForm(forms.Form):
     name = forms.CharField(max_length=50, required=False)
-    comment = forms.CharField(max_length=100, required=False)    
+    comment = forms.CharField(max_length=100, required=False)
     file = forms.FileField(required=True)
-    place_id = forms.IntegerField(widget=forms.HiddenInput)  
+    place_id = forms.IntegerField(widget=forms.HiddenInput)
     doc_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
 
 
-class PlaceForm(ModelForm):  
+class PlaceForm(ModelForm):
     parent = forms.IntegerField(widget = HiddenInput())
     def clean_parent(self):
         if self.cleaned_data['parent'] != None:
-            return Place.objects.get(id=self.cleaned_data['parent'])  
+            return Place.objects.get(id=self.cleaned_data['parent'])
     class Meta:
-        model = Place        
+        model = Place
         #exclude = ('parent',)
 
 class TicketForm(ModelForm):
@@ -45,11 +45,14 @@ class TicketForm(ModelForm):
             return Ticket.objects.filter(user=self.instance.user).order_by('-id')
         else:
             return None
-        
+
     class Meta:
         model = Ticket
         exclude = ( 'user', 'admin', 'device', 'ctime', 'closing_time')
 
 class UserForm(ModelForm):
+    name=forms.CharField(label='Ф.И.О.',widget=forms.TextInput(attrs={'size':40}))
+    email=forms.CharField(widget=forms.TextInput(attrs={'size':35}))
     class Meta:
         model = User
+        exclude = ('place')

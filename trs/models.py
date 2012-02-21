@@ -16,16 +16,16 @@ class Message(models.Model):
     
 
 class User(models.Model):
+    name = models.CharField("Имя",max_length=60)
     email = models.EmailField(blank=True,null=True)
-    admin = models.BooleanField(default=False)
-    name = models.CharField(max_length=60)
-    login = models.CharField(max_length=16,blank=True,null=True)
-    password = models.CharField(max_length=32,blank=True,null=True)
     phone = models.CharField("Внутр. телефон",max_length=30,blank=True,null=True)
     mobile = models.CharField("Корп. мобильный",max_length=30,blank=True,null=True)
     city_phone = models.CharField("Городской телефон",max_length=30,blank=True,null=True)
     sat_phone = models.CharField("Спутниковый телефон",max_length=30,blank=True,null=True)
     personal_phone = models.CharField("Личный телефон",max_length=30,blank=True,null=True)
+    admin = models.BooleanField(default=False)
+    login = models.CharField(max_length=16,blank=True,null=True)
+    password = models.CharField(max_length=32,blank=True,null=True)
     place = models.ForeignKey('Place',blank=True,null=True)
 
 class Device(models.Model):

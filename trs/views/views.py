@@ -74,6 +74,8 @@ def ticket_filter(data, admin_id):
 @login_required
 def ticket_list(request):
     admin = session_user(request)
+
+
     tickets = Ticket.objects.all().order_by('status', 'priority', '-ctime')
     try:
         f = request.session['ticket_filter']

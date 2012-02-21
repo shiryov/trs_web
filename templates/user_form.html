@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}- Пользователь{% endblock %}
 {% block content %}
-<a href="javascript:history.back()">&lt;&lt;Назад</a>
+
 <h3>{{user.name}}</h3>
 
 <div style="position:relative">
@@ -9,16 +9,26 @@
 
 <form method="post" action="{{ form_action }}">
     {{form.errors}}
-	{% for field in form.visible_fields %}				
-		<div class="field_wrapper">
-		{{field.label_tag}}
-		{{field}}
-		</div>
+    <table>
+	{% for field in form.visible_fields %}
+        <tr>
+		
+		<td>{{field.label_tag}}
+		<td>{{field}}
+
+        </tr>
 	{% endfor %}
-	{% if user.id %}
+
+<!--	{% if user.id %}
     <input type="hidden" name="user_id" value="{{user.id}}"/>
-    {% endif %}
-    <input type="submit" value="Сохранить"/>
+    {% endif %}-->
+    <tr>
+    <td colspan="2" class="form-bottom">
+        <input type="button" value="Отмена" onclick="history.back()"/>
+        <input type="submit" value="Сохранить"/>
+    </td>
+    </tr>
+    </table>
 </form>
 </div>
 </div>

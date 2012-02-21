@@ -6,8 +6,8 @@
     <label>Ответить по email:</label>
     <form method="post" action="/ticket_reply/">
     <textarea name="msg_txt" id="id_reply"></textarea>
-    <input type="submit" value="Отправить"></input>
-    <input type="hidden" value="{{ticket.id}}" name="ticket_id" ></input>
+    <input type="submit" value="Отправить"/>
+    <input type="hidden" value="{{ticket.id}}" name="ticket_id" />
     </form>
     <table style="border-color:black">
     {% for m in msgs %}
@@ -24,7 +24,7 @@
 </div>
 <div id="ticket_form">
 	{% if mail_error %}
-	<div class="mail_error">Отправка email не удалась</br>Ошибка: {{mail_error}}</div>
+	<div class="mail_error">Отправка email не удалась<br/>Ошибка: {{mail_error}}</div>
 	{% endif %}	
     <form method="post" action="/edit_ticket/">
     

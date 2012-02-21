@@ -2,6 +2,7 @@ table {background:#b9cc81; border-collapse:separate ; border-spacing: 1px }
 
 td {border:0px;padding:5px; background:#fff; color:black; font-size:11pt; font-family:helvetica; text-align:center }
 td.form {border:0px;padding:5px; background:#fff; font-size:11pt; font-family:helvetica; text-align:left }
+td.form-bottom {border:0px;padding:5px; background:#fff; font-size:11pt; font-family:helvetica; text-align:right }
 th {border:0px;padding:10px; background:#ffffff; color:black; font-size:11pt; font-family:helvetica; text-align:center }
 td.ticket_text {padding-top:1px;padding-bottom:1px;max-width:30%; font-size:11pt;}
 td.time {font-size:9pt;}
