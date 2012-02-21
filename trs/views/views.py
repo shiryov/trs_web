@@ -76,7 +76,8 @@ def ticket_list(request):
     admin = session_user(request)
 
 
-    tickets = Ticket.objects.all().order_by('status', 'priority', '-ctime')
+    tickets = Ticket.objects.all().order_by('status', 'priority', '-ctime').filter(status__gt='20')
+    tickets_open = Ticket.objects.all().order_by('status', 'priority', '-ctime').filter(status__lte='20')
     try:
         f = request.session['ticket_filter']
         filt = ticket_filter(f, admin.id)
@@ -85,7 +86,7 @@ def ticket_list(request):
     except:
         pass
 
-    #tickets = tickets.exclude(status='00')
+    
     paginator = Paginator(tickets, 25)
 
     # Make sure page request is an int. If not, deliver first page.
@@ -100,7 +101,7 @@ def ticket_list(request):
     except (EmptyPage, InvalidPage):
         tickets = paginator.page(paginator.num_pages)
 
-    return render_to_response('ticket_list.html', {'tickets': tickets})
+    return render_to_response('ticket_list.html', {'tickets': tickets,'tickets_open':tickets_open})
 
 
 
