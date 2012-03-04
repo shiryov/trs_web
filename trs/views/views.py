@@ -31,14 +31,35 @@ def login_required(view):
 
     return tmp
 
+class LogonMixin(object):
+
+    def no_login(self):
+        return render_to_response('login.html')
+
+    def login_ok(self,session):
+        login = False
+        try:
+            login = session.get('login', None)
+        except:
+            pass
+        if not login:
+            return False
+        else:
+            return True
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.login_ok(request.session):
+            return self.no_login()
+        return super(LogonMixin, self).dispatch(request, *args, **kwargs)
 
 
-class UserCreate(CreateView):
+
+class UserCreate(LogonMixin,CreateView):
     form_class=UserForm
     template_name='user_form.html'
     success_url='/'
 
-class UserUpdate(UpdateView):
+class UserUpdate(LogonMixin,UpdateView):
     form_class=UserForm
     template_name='user_form.html'
     success_url='/'
