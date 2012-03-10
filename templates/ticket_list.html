@@ -2,6 +2,21 @@
 {% block title %}- Просмотр заявок{% endblock %}
 {% block content %}
 
+<div class="pagination">
+    <span class="step-links">
+        {% if tickets.has_previous %}
+            <a href="?page={{ tickets.previous_page_number }}"> &lt;&lt; </a>
+        {% endif %}
+
+        <span class="current">
+            Стр.: {{ tickets.number }} из {{ tickets.paginator.num_pages }}.
+        </span>
+
+        {% if tickets.has_next %}
+            <a href="?page={{ tickets.next_page_number }}"> &gt;&gt; </a>
+        {% endif %}
+    </span>
+</div>
 
 <table style="border-color:black">
     <tr>
@@ -12,26 +27,6 @@
 	  <th>Описание</th>
 
     </tr>
-
-{% for t in tickets_open %}
-
-    <tr>
-	  <td>{{t.id}}</td>
-      <td><a href="{% url edit "ticket" t.id %}">{{t.get_status_display}}</a><br/><span class="priority">{{t.get_priority_display}}</span></td>
-      <td class="time">{{t.ctime|date:"d.M H:i"}}<br/><span class="hours">{{t.hours_from_now}} ч. назад</span></td>
-      <td><span class="user"><a href="/edit_user/{{t.user.id}}">{{t.user.name}}</a></span></td>
-	  <td class="ticket_text">
-	  {{t.get_short_text}}
-	  <img src="/media/cat_{{t.category}}.png" title="{{t.get_category_display}}" align="right" style="padding-left:5px"/>
-
-
-	  </td>
-
-    </tr>
-
-{% endfor %}
-
-<tr><td colspan="6" height="50"></td></tr>
 
 {% for t in tickets.object_list %}
 
@@ -51,26 +46,5 @@
 
 {% endfor %}
 
-
-
 </table>
-
-
-
-<div class="pagination">
-    <span class="step-links">
-        {% if tickets.has_previous %}
-            <a href="?page={{ tickets.previous_page_number }}"> &lt;&lt; </a>
-        {% endif %}
-
-        <span class="current">
-            Стр.: {{ tickets.number }} из {{ tickets.paginator.num_pages }}.
-        </span>
-
-        {% if tickets.has_next %}
-            <a href="?page={{ tickets.next_page_number }}"> &gt;&gt; </a>
-        {% endif %}
-    </span>
-</div>
-
 {% endblock %}
